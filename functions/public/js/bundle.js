@@ -36815,7 +36815,7 @@ firebase.initializeApp(config);
 class First_Page extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { ItemText: [] };
+        this.state = { ItemText: [], AddButton: true };
         this.RemoveItem = this.RemoveItem.bind(this);
         this.AddItem = this.AddItem.bind(this);
         this.UpdateItem = this.UpdateItem.bind(this);
@@ -36831,17 +36831,21 @@ class First_Page extends React.Component {
     }
     UpdateItem(value, index) {
         var arr = this.state.ItemText;
-        arr[index] = value;
-        this.setState({ ItemText: arr });
-        this.updateDB();
+        if (value.length != 0) {
+            arr[index] = value;
+            this.setState({ ItemText: arr });
+            this.updateDB();
+        }
     }
     AddItem(e) {
         e.preventDefault();
         var arr = this.state.ItemText;
         var value = this.refs.addText.value;
-        arr.push(value);
-        this.setState({ ItemText: arr });
-        this.updateDB();
+        if (value.length != 0) {
+            arr.push(value);
+            this.setState({ ItemText: arr });
+            this.updateDB();
+        }
     }
     PopulateItem(item, i) {
         return React.createElement(
@@ -36851,8 +36855,8 @@ class First_Page extends React.Component {
         );
     }
     dataSnapshot(snap) {
-        this.setState({ ItemText: Object.values(snap.val()) });
-        console.log(Object.keys(snap.val()));
+        this.setState({ ItemText: Object.values(snap.val()), AddButton: false });
+        // console.log(Object.keys(snap.val()))
     }
     componentDidMount() {
         firebase.database().ref("To do List").on("value", this.dataSnapshot);
@@ -36891,7 +36895,7 @@ class First_Page extends React.Component {
                                     React.createElement(
                                         'span',
                                         { className: 'input-group-btn' },
-                                        React.createElement('input', { type: 'submit', value: `Add Value Item # ${this.state.ItemText.length + 1}`, className: 'btn btn-default' })
+                                        React.createElement('input', { type: 'submit', value: `Add Value Item # ${this.state.ItemText.length + 1}`, className: 'btn btn-default', disabled: this.state.AddButton })
                                     )
                                 )
                             )
@@ -36980,10 +36984,13 @@ class ToDoItem extends React.Component {
     }
     Update(e) {
         e.preventDefault();
-        this.props.UpdateItem(this.refs.Text.value, this.props.Index);
-        this.setState({
-            EditText: false
-        });
+        var value = this.refs.Text.value;
+        if (value.length != 0) {
+            this.props.UpdateItem(value, this.props.Index);
+            this.setState({
+                EditText: false
+            });
+        }
     }
     Cancel() {
         this.setState({
@@ -37000,7 +37007,7 @@ class ToDoItem extends React.Component {
                 React.createElement(
                     "form",
                     { onSubmit: this.Update, className: "input-group" },
-                    React.createElement("input", { type: "text", ref: "Text", className: "col-lg-4 form-control input-lg" }),
+                    React.createElement("input", { type: "text", ref: "Text", className: "col-lg-4 form-control input-lg", placeholder: this.props.children }),
                     React.createElement(
                         "span",
                         { className: "input-group-btn" },

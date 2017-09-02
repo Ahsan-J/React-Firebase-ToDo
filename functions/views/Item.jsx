@@ -19,10 +19,13 @@ class ToDoItem extends React.Component{
     }
     Update(e){
         e.preventDefault();
-        this.props.UpdateItem(this.refs.Text.value,this.props.Index);
-        this.setState({
-            EditText:false
-        })
+        var value = this.refs.Text.value;
+        if(value.length!=0){
+            this.props.UpdateItem(value,this.props.Index);
+            this.setState({
+                EditText:false
+            })
+        }
     }
     Cancel(){
         this.setState({
@@ -33,7 +36,7 @@ class ToDoItem extends React.Component{
         return (<tr>
                 <td className="col-lg-3">
                 <form onSubmit={this.Update} className="input-group">
-                    <input type="text" ref="Text" className = "col-lg-4 form-control input-lg" />
+                    <input type="text" ref="Text" className = "col-lg-4 form-control input-lg" placeholder={this.props.children}/>
                     <span className="input-group-btn">
                         <input type="submit" value="Save" className="btn btn-success"/>
                         <button className = "btn btn-default" onClick = {this.Cancel}>Cancel</button>
