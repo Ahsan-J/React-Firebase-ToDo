@@ -1,0 +1,28 @@
+{
+  "name": "react-todo",
+  "version": "1.0.0",
+  "description": "Express, WebPack, BootStrap Connected with React JS",
+  "main": "server.js",
+  "scripts": {
+    "start": "webpack && node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ahsan Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "circular-json": "^0.3.3",
+    "express": "^4.15.4",
+    "firebase": "^4.3.0",
+    "firebase-admin": "^4.2.1",
+    "firebase-functions": "^0.5.9",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router": "^4.2.0",
+    "webpack": "^3.5.5"
+  },
+  "private": true
+}
